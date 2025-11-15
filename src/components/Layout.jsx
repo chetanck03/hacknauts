@@ -11,7 +11,7 @@ function Layout() {
       <Navbar />
       <main className="flex-1">
         <Outlet />
-      {/* <AIAssistant /> */}
+      <AIAssistant />
       </main>
 
       <Footer />
@@ -70,7 +70,7 @@ function Layout() {
       />
       
       {/* AI Assistant */}
-      {/* <AIAssistant /> */}
+      <AIAssistant />
     </div>
   )
 }

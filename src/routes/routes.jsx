@@ -25,14 +25,14 @@ export const router = createBrowserRouter([
         path: 'contact',
         element: <ContactPage />,
       },
-      // {
-      //   path: 'dashboard',
-      //   element: <Dashboard />,
-      // },
-      // {
-      //   path: 'transaction/evm/:address',
-      //   element: <TransactionPage />,
-      // },
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
+      },
+      {
+        path: 'transaction/evm/:address',
+        element: <TransactionPage />,
+      },
       {
         path: '*',
         element: <NotFound />,
