@@ -16,7 +16,6 @@ import citreaLogo from '../../assests/citrea-logo.svg'
 const NetworkSelector = ({ currentBlockchain, onBlockchainChange }) => {
     const [showDropdown, setShowDropdown] = useState(false)
     const [selectedTimeframe, setSelectedTimeframe] = useState('7') // Default to 7 days
-    const [showVolumeChart, setShowVolumeChart] = useState(false)
 
     // Time period options - only reliable ones
     const timeframes = [
@@ -82,34 +81,17 @@ const NetworkSelector = ({ currentBlockchain, onBlockchainChange }) => {
                 <div className="relative bg-neutral-900/50 backdrop-blur-sm border border-neutral-700 rounded-xl p-6 md:p-8">
                     
                     {/* Header */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                        <div className="flex items-center gap-3">
-                            <div className="relative inline-block overflow-hidden rounded-full p-[1px]">
-                                <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-                                <div className="inline-flex items-center w-10 h-10 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-400/20 border border-purple-500/30 justify-center bg-neutral-950 backdrop-blur-3xl">
-                                    <Network className="text-purple-400" size={20} />
-                                </div>
-                            </div>
-                            <div>
-                                <h2 className="text-lg sm:text-xl font-semibold text-white font-geist">Network Selection</h2>
-                                <p className="text-xs text-gray-400">Choose blockchain & view market data</p>
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="relative inline-block overflow-hidden rounded-full p-[1px]">
+                            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+                            <div className="inline-flex items-center w-10 h-10 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-400/20 border border-purple-500/30 justify-center bg-neutral-950 backdrop-blur-3xl">
+                                <Network className="text-purple-400" size={20} />
                             </div>
                         </div>
-
-                        {/* Toggle Volume Chart Button */}
-                        <button
-                            onClick={() => setShowVolumeChart(!showVolumeChart)}
-                            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all duration-200 ${
-                                showVolumeChart 
-                                    ? 'bg-purple-600/20 border-purple-500/50 text-purple-400' 
-                                    : 'bg-neutral-800/50 border-neutral-600 text-gray-400 hover:border-neutral-500'
-                            }`}
-                        >
-                            <BarChart3 size={16} />
-                            <span className="text-sm font-medium">
-                                {showVolumeChart ? 'Hide Market Charts' : 'Show Market Charts'}
-                            </span>
-                        </button>
+                        <div>
+                            <h2 className="text-lg sm:text-xl font-semibold text-white font-geist">Network Selection</h2>
+                            <p className="text-xs text-gray-400">Choose blockchain & view market data</p>
+                        </div>
                     </div>
 
                     {/* Network Dropdown Selector */}
@@ -190,71 +172,67 @@ const NetworkSelector = ({ currentBlockchain, onBlockchainChange }) => {
                         </div>
 
                         {/* Time Period Selector */}
-                        {showVolumeChart && (
-                            <div className="flex-1 min-w-0">
-                                <label className="block text-sm font-medium text-gray-300 mb-2">
-                                    Chart Time Period
-                                </label>
-                                <div className="flex gap-2 flex-wrap">
-                                    {timeframes.map((timeframe) => (
-                                        <button
-                                            key={timeframe.value}
-                                            onClick={() => handleTimeframeChange(timeframe.value)}
-                                            className={`px-3 py-2 rounded-lg border text-sm font-medium transition-all duration-200 whitespace-nowrap ${
-                                                selectedTimeframe === timeframe.value
-                                                    ? 'bg-purple-600/20 border-purple-500/50 text-purple-400'
-                                                    : 'bg-neutral-800/50 border-neutral-600 text-gray-400 hover:border-neutral-500'
-                                            }`}
-                                        >
-                                            {timeframe.label}
-                                        </button>
-                                    ))}
-                                </div>
-                                <div className="mt-2 text-xs text-gray-500">
-                                    {timeframes.find(t => t.value === selectedTimeframe)?.description}
-                                </div>
+                        <div className="flex-1 min-w-0">
+                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                                Chart Time Period
+                            </label>
+                            <div className="flex gap-2 flex-wrap">
+                                {timeframes.map((timeframe) => (
+                                    <button
+                                        key={timeframe.value}
+                                        onClick={() => handleTimeframeChange(timeframe.value)}
+                                        className={`px-3 py-2 rounded-lg border text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                                            selectedTimeframe === timeframe.value
+                                                ? 'bg-purple-600/20 border-purple-500/50 text-purple-400'
+                                                : 'bg-neutral-800/50 border-neutral-600 text-gray-400 hover:border-neutral-500'
+                                        }`}
+                                    >
+                                        {timeframe.label}
+                                    </button>
+                                ))}
                             </div>
-                        )}
+                            <div className="mt-2 text-xs text-gray-500">
+                                {timeframes.find(t => t.value === selectedTimeframe)?.description}
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Volume Chart */}
-                    {showVolumeChart && (
-                        <div className="mt-6">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center gap-2">
-                                    <TrendingUp className="w-5 h-5 text-purple-400" />
-                                    <h3 className="text-lg font-semibold text-white">
-                                        Price & Volume Analytics
-                                    </h3>
+                    {/* Volume Chart - Always visible */}
+                    <div className="mt-6">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                                <TrendingUp className="w-5 h-5 text-purple-400" />
+                                <h3 className="text-lg font-semibold text-white">
+                                    Price & Volume Analytics
+                                </h3>
+                            </div>
+                            <div className="text-right">
+                                <div className="text-sm text-purple-400 font-medium">
+                                    {currentTimeframe?.label}
                                 </div>
-                                <div className="text-right">
-                                    <div className="text-sm text-purple-400 font-medium">
-                                        {currentTimeframe?.label}
-                                    </div>
-                                    <div className="text-xs text-gray-400">
-                                        {currentTimeframe?.description}
-                                    </div>
+                                <div className="text-xs text-gray-400">
+                                    {currentTimeframe?.description}
                                 </div>
                             </div>
-                            <div className="bg-neutral-800/20 border border-neutral-600/50 rounded-lg p-3 mb-4">
-                                <div className="flex items-center justify-center gap-8 flex-wrap">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                                        <span className="text-sm text-purple-400 font-medium">Trading Volume (Purple Line)</span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                                        <span className="text-sm text-green-400 font-medium">Token Price (Green Line)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <VolumeChart 
-                                blockchain={currentBlockchain}
-                                timeframe={selectedTimeframe}
-                                networkName={currentNetwork?.config.networks.testnet.name}
-                            />
                         </div>
-                    )}
+                        <div className="bg-neutral-800/20 border border-neutral-600/50 rounded-lg p-3 mb-4">
+                            <div className="flex items-center justify-center gap-8 flex-wrap">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                    <span className="text-sm text-purple-400 font-medium">Trading Volume (Purple Line)</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    <span className="text-sm text-green-400 font-medium">Token Price (Green Line)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <VolumeChart 
+                            blockchain={currentBlockchain}
+                            timeframe={selectedTimeframe}
+                            networkName={currentNetwork?.config.networks.testnet.name}
+                        />
+                    </div>
 
                     {/* Current Network Info */}
                     <div className="mt-6 p-4 bg-neutral-800/30 border border-neutral-600 rounded-lg">
