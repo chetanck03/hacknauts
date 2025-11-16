@@ -1,8 +1,6 @@
 #  WalletX - Revolutionary Multi-Chain AI Powered DeFi Platform
 ## World's First Temporary Wallet Technology + Revolutionary Multi-Chain Escrow Platform + WalletX AI Assistance & QR Integration
-
-
-> **🎥 Video Demo**: [youtube.com/walletx](https://youtu.be/)  
+ 
 > **⚡ Live Demo**: [walletx.software](https://walletx.software)  
 > **🤝 Trustless** | **🌐 Multi-Chain** | **📱 Production Ready** | **🤖 AI-Powered**
 
@@ -16,10 +14,10 @@ WalletX is a **game-changing multi-chain escrow platform** that revolutionizes D
 - **🤖 AI Assistant**: Integrated WalletX AI for real-time user support
 - **📱 Production Ready**: Professional-grade mobile-responsive interface
 
-[![Multi-Chain](https://img.shields.io/badge/Multi--Chain-8%20Networks-9945FF?style=for-the-badge)](https://github.com/chetanck03/OctantDeFi)
+[![Multi-Chain](https://img.shields.io/badge/Multi--Chain-8%20Networks-9945FF?style=for-the-badge)](https://github.com/chetanck03/hacknauts)
 [![Live Demo](https://img.shields.io/badge/Live-Demo-FF6B6B?style=for-the-badge)](https://walletx.software)
-[![AI Powered](https://img.shields.io/badge/AI-Powered-00D4AA?style=for-the-badge)](https://github.com/chetanck03/OctantDeFi)
-[![QR Integration](https://img.shields.io/badge/QR-Integration-FF6B35?style=for-the-badge)](https://github.com/chetanck03/OctantDeFi)
+[![AI Powered](https://img.shields.io/badge/AI-Powered-00D4AA?style=for-the-badge)](https://github.com/chetanck03/hacknauts)
+[![QR Integration](https://img.shields.io/badge/QR-Integration-FF6B35?style=for-the-badge)](https://github.com/chetanck03/hacknauts)
 
 ![Aleph-WalletX Hero](./public/images/hero.png)
 
@@ -59,28 +57,21 @@ WalletX is a **game-changing multi-chain escrow platform** that revolutionizes D
 ✅ Multi-language support
 ```
 
-#### 5. **🌐 True Multi-Chain Architecture**
+#### 5. **📧 AWS SNS Email Notifications**
+```
+✅ Real-time email alerts for escrow creation
+✅ Transaction details with explorer links
+✅ AWS SNS integration for scalability
+✅ EmailJS fallback for reliability
+```
+
+#### 6. **🌐 True Multi-Chain Architecture**
 ```
 ✅ Unified experience across 8 EVM networks
 ✅ Seamless network switching
 ✅ Consistent features everywhere
 ✅ Cross-chain transaction history
 ```
-
-## 🛠️ **Smart Contract Deployment Across 8 Networks**
-
-Our **WalletX Escrow Contract** is deployed and verified across 8 EVM networks:
-
-| **Network** | **Contract Address** |
-|-------------|---------------------|
-| **🔷 Lisk Sepolia** | `0x81219B194501707C4935F5D106b67DFBEC1F6baa` | 
-| **🔵 Base Sepolia** | `0x41e21c4e353E25a215A02778dD977Dc1A6F7ca56` | 
-| **🟠 Citrea Testnet** | `0xF7DAc384aAB89007EBAc37Dbc5782Db635E9FF8c` | 
-| **🟪 Polygon Amoy** | `0xC37258B0C18F35509D232ec603b15Bb3D091a795` | 
-| **⚪ Ethereum Sepolia** | `0x5a143f09670BEeadaB2D1CFA450Fe6F8CC0cdfDD` | 
-| **🟡 BNB Testnet** | `0x14933594e838dF806484aD31eE206CFce3999151` | 
-| **⚫ ZetaChain Athens** | `0xc9cE88752f6bAc4E6449938C0ac399d4C16Bb623` | 
-| **🟢 Somnia Testnet** | `0x4016f5d2aF71DBE1b372246f02911b60Af99B8c8` | 
 
 
 ### 📝 **Core Smart Contract Functions**
@@ -116,10 +107,10 @@ contract WalletX {
 | ![QR Code](./public/images/qr-code-wallet-address.png) | ![QR Scanner](./public/images/scan-qr-code.png) | ![Import](./public/images/import-seed-phrase.png) |
 | *Instant address sharing* | *Built-in mobile scanner* | *BIP39/BIP44 compliant* |
 
-| **🌐 Network Support** | **🤖 AI Assistant** | **📖 About Platform** |
+| **🌐 Network Support** | **🤖 AI Assistant** | **📧 AWS SNS Notifications** |
 |---|---|---|
-| ![Networks](./public/images/suported-network.png) | ![AI Assistant](./public/images/ai-assitant.png) | ![About](./public/images/about.png) |
-| *8 EVM networks supported* | *Gemini AI integration* | *Complete platform info* |
+| ![Networks](./public/images/suported-network.png) | ![AI Assistant](./public/images/ai-assitant.png) | *Email notifications via AWS SNS* |
+| *8 EVM networks supported* | *Gemini AI integration* | *Real-time escrow alerts* |
 
 ### **Unique Value Propositions**
 
@@ -181,6 +172,14 @@ EmailJS 4.4.1         // Contact form integration
 Gemini AI 2.0 Flash   // AI assistant integration
 ```
 
+### ☁️ **AWS Cloud Integration**
+```javascript
+AWS SNS 3.705.0       // Real-time email notifications
+AWS SDK Client        // Serverless cloud integration
+Auto-fallback         // EmailJS backup for reliability
+Scalable Architecture // Production-ready notifications
+```
+
 ### 🔐 **Security & Standards**
 ```javascript
 bip39 3.1.0           // Industry-standard mnemonic generation
@@ -203,8 +202,8 @@ Cross-Chain History   // Unified transaction tracking
 ### 💻 **Local Development**
 ```bash
 # Clone the revolutionary platform
-git clone https://github.com/chetanck03/OctantDeFi
-cd OctantDeFi
+git clone https://github.com/chetanck03/hacknauts
+cd hacknauts
 
 # Install dependencies
 npm install
@@ -242,6 +241,11 @@ VITE_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
 VITE_WALLETX_API_KEY=your_ai_api
 VITE_WALLETX_URL=your_ai_url
 
+# AWS SNS Configuration (Optional - for email notifications)
+VITE_AWS_REGION=us-east-1
+VITE_AWS_ACCESS_KEY_ID=your_aws_access_key_id
+VITE_AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+VITE_AWS_SNS_TOPIC_ARN=arn:aws:sns:us-east-1:123456789012:WalletX-Notifications
 
 # Start development server
 npm run dev
@@ -270,7 +274,7 @@ npm run build
 
 ### 📋 **Complete Submission Package**
 - ✅ **Live Demo**: [walletx.software](https://walletx.software)
-- ✅ **GitHub Repo**: [OctantDeFi](https://github.com/chetanck03/OctantDeFi) (100% Open Source)
+- ✅ **GitHub Repo**: [Hacknauts](https://github.com/chetanck03/hacknauts) (100% Open Source)
 - ✅ **8 Smart Contracts**: Deployed across all major testnets
 - ✅ **Mobile Responsive**: Perfect mobile experience
 - ✅ **AI Integration**: Gemini AI assistant

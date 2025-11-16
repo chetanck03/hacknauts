@@ -15,7 +15,8 @@ import {
   ArrowDownLeft,
   History,
   QrCode,
-  Camera
+  Camera,
+  Mail
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { getBlockchainConfig, getNetworkConfig } from '../../lib/networks'
@@ -35,6 +36,7 @@ import {
   WALLETX_CONTRACT_ADDRESS,
   debugEscrow
 } from '../../lib/contractUtils'
+import { sendEscrowNotification, validateEmail } from '../../lib/awsNotifications'
 import QRScannerModal from '../Wallet/EthComponents/QRScannerModal'
 import polygonLogo from '../../assests/polygon-matic-logo.svg'
 import baseLogo from '../../assests/base-logo.svg'
@@ -84,7 +86,7 @@ function EscrowTransaction({ walletData, blockchain }) {
       })
       setNetwork(networks[0] || 'testnet')
     }
-    setSendForm({ to: '', amount: '', gasLimit: '500000' })
+    setSendForm({ to: '', amount: '', gasLimit: '500000', email: '' })
     setEscrowHistory([])
     setPendingActions({ claimable: [], refundable: [] })
   }, [blockchain])
@@ -92,7 +94,8 @@ function EscrowTransaction({ walletData, blockchain }) {
   const [sendForm, setSendForm] = useState({
     to: '',
     amount: '',
-    gasLimit: '500000' // Higher default for better reliability with complex contracts
+    gasLimit: '500000', // Higher default for better reliability with complex contracts
+    email: '' // Email for AWS SNS notifications
   })
   
   const [sending, setSending] = useState(false)
@@ -299,6 +302,12 @@ function EscrowTransaction({ walletData, blockchain }) {
       return
     }
 
+    // Validate email if provided
+    if (sendForm.email && !validateEmail(sendForm.email)) {
+      toast.error('Please enter a valid email address')
+      return
+    }
+
     const amount = parseFloat(sendForm.amount)
     if (amount <= 0 || amount > parseFloat(balance)) {
       toast.error('Invalid amount')
@@ -341,8 +350,37 @@ function EscrowTransaction({ walletData, blockchain }) {
       setTransactionStatus('Success!')
       toast.success(`🎉 Escrow confirmed in block ${receipt.blockNumber}`)
 
+      // Send email notification if email provided
+      if (sendForm.email) {
+        try {
+          setTransactionStatus('Sending notification...')
+          const notificationData = {
+            email: sendForm.email,
+            escrowId: txResponse.escrowId || 'N/A',
+            amount: sendForm.amount,
+            symbol: blockchainConfig.symbol,
+            recipient: sendForm.to,
+            blockchain: currentBlockchain,
+            network: network,
+            txHash: txResponse.hash
+          }
+          
+          // Send email notification
+          const notificationSent = await sendEscrowNotification(notificationData)
+          
+          if (notificationSent) {
+            toast.success(`Email notification sent to ${sendForm.email}!`)
+          } else {
+            toast.success(`✅ Transaction completed! (Email service temporarily unavailable)`)
+          }
+        } catch (notificationError) {
+          console.error('Notification error:', notificationError)
+          toast.error('Email service unavailable. Transaction completed successfully!')
+        }
+      }
+
       // Reset form and refresh data
-      setSendForm({ to: '', amount: '', gasLimit: '500000' })
+      setSendForm({ to: '', amount: '', gasLimit: '500000', email: '' })
       await fetchBalance()
       await fetchEscrowData(false)
 
@@ -433,7 +471,7 @@ function EscrowTransaction({ walletData, blockchain }) {
 
   const handleNetworkChange = (newNetwork) => {
     setNetwork(newNetwork)
-    setSendForm({ to: '', amount: '', gasLimit: '500000' })
+    setSendForm({ to: '', amount: '', gasLimit: '500000', email: '' })
   }
 
   const openFaucet = () => {
@@ -667,6 +705,8 @@ function EscrowTransaction({ walletData, blockchain }) {
                   </div>
                 </div>
 
+               
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-3 font-geist">
@@ -721,13 +761,29 @@ function EscrowTransaction({ walletData, blockchain }) {
                       </button>
                     </div>
                     <div className="text-xs text-gray-400 mt-2 space-y-1">
-                      <p className="font-geist">• Simple escrow: 300,000 - 500,000 gas</p>
-                      <p className="font-geist">• Complex contracts: 500,000+ gas</p>
+                      {/* <p className="font-geist">• Simple escrow: 300,000 - 500,000 gas</p> */}
                       <p className="font-geist text-yellow-400">⚠️ Gas will be auto-adjusted based on contract complexity</p>
                     </div>
                   </div>
                 </div>
               </div>
+
+               <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-3 font-geist">
+                    Email for Notifications
+                    <span className="text-xs text-gray-400 ml-2">(Optional - Get notified when escrow is created)</span>
+                  </label>
+                  <input
+                    type="email"
+                    value={sendForm.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    placeholder="your.email@example.com"
+                    className="w-full px-4 py-3 border border-neutral-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-neutral-800/50 text-gray-200 placeholder-gray-400 transition-all duration-200 hover:border-neutral-500"
+                  />
+                  <p className="text-xs text-gray-400 mt-2 font-geist">
+                    Receive instant email with transaction details and explorer link
+                  </p>
+                </div>
 
               <div className="bg-purple-600/20 border border-purple-600/30 rounded-lg p-4">
                 <div className="flex items-start gap-2">
